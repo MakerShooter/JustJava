@@ -1,62 +1,91 @@
 package com.example.user.justjava;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.TextView;
+
 import java.text.NumberFormat;
 
 /**
  * This app displays an order form to order coffee.
  */
 public class MainActivity extends AppCompatActivity {
+    int quantity = 2;
+    int oneCoffePrice = 5;
+    private TextView priceTextView;
+    private TextView quantityTextView;
+    private CheckBox whippedCheckBox;
+    private CheckBox chocolateCheckBox;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        priceTextView = (TextView) findViewById(R.id.price_text_view);
+        quantityTextView = (TextView) findViewById(R.id.quantity_text_view);
+        whippedCheckBox = (CheckBox) findViewById(R.id.checkbox_whipped);
+        chocolateCheckBox = (CheckBox) findViewById(R.id.checkbox_chocolate);
+
+        priceTextView.setText(NumberFormat.getCurrencyInstance().format(oneCoffePrice));
+        quantityTextView.setText(" " + quantity);
+
     }
 
     /**
      * This method is called when the order button is clicked.
      */
     public void submitOrder(View view) {
-        int numberOfCoffee = 8;
-        display();
-        displayPrice();
+
+Log.v("MainActivity","quantity "+ quantity);
+        display(quantity);
+        displayPrice(quantity);
     }
-    public void increment() {
-        int quantity = 3;
-        TextView quantityTextView = (TextView) findViewById(R.id.quantity_text_view);
-        int num = Integer.valueOf(quantityTextView.getText().toString());
-        quantityTextView.setText(quantity);
-    }
-    public void decrement() {
-        int quantity = 1;
-        TextView quantityTextView = (TextView) findViewById(R.id.quantity_text_view);
-      //  int num = Integer.valueOf(quantityTextView.getText().toString());
-        quantityTextView.setText(quantity);
+
+    /**
+     * This method increment the number of coffee
+     */
+
+    public void increment(View view) {
+        quantity = quantity + 1;
+        display(quantity);
+
     }
     /**
-     * This method displays the given quantity value on the screen.
+     * This method increment the number of coffee
      */
-    private void display() {
-        TextView quantityTextView = (TextView) findViewById(R.id.quantity_text_view);
-        int num = Integer.valueOf(quantityTextView.getText().toString());
-        quantityTextView.setText((num+1));
+    public void decrement(View view) {
+        if (quantity > 0) {
+            quantity = quantity - 1;
+        }
+        display(quantity);
     }
 
-    private void displayPrice() {
-        TextView priceTextView = (TextView) findViewById(R.id.price_text_view);
-       String str = priceTextView.getText().toString();
-        int iend =  str.indexOf(",");
-        String subString = "0";
-        if (iend != -1) {
-            subString = str.substring(0, iend);
-        }
-        int num = Integer.valueOf(subString);
 
-        priceTextView.setText(NumberFormat.getCurrencyInstance().format(num+1));
+
+    private void display(int number) {
+
+        quantityTextView.setText("" + number);
+    }
+
+
+    /**
+     * This method displays the given price value on the screen.
+     */
+    private void displayPrice(int number) {
+        number = number * oneCoffePrice;
+        String message = NumberFormat.getCurrencyInstance().format(number) + "\n" + "price for " + quantity + " coffees";
+        if (whippedCheckBox.isChecked()){
+            message +="\n" +"With Whipped Cream";
+        } if (chocolateCheckBox.isChecked()){
+            message +="\n"+ "With Chocolate";
+        }
+
+        priceTextView.setText(message);
+
+
     }
 
 }
