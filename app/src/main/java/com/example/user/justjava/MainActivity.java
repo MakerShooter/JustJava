@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import java.text.NumberFormat;
@@ -19,6 +20,8 @@ public class MainActivity extends AppCompatActivity {
     private TextView quantityTextView;
     private CheckBox whippedCheckBox;
     private CheckBox chocolateCheckBox;
+    boolean isExtra;
+    private EditText editName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
 
         priceTextView.setText(NumberFormat.getCurrencyInstance().format(oneCoffePrice));
         quantityTextView.setText(" " + quantity);
+        editName = (EditText) findViewById(R.id.edit_name);
+
 
     }
 
@@ -42,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
 Log.v("MainActivity","quantity "+ quantity);
         display(quantity);
         displayPrice(quantity);
+
     }
 
     /**
@@ -79,10 +85,24 @@ Log.v("MainActivity","quantity "+ quantity);
         String message = NumberFormat.getCurrencyInstance().format(number) + "\n" + "price for " + quantity + " coffees";
         if (whippedCheckBox.isChecked()){
             message +="\n" +"With Whipped Cream";
-        } if (chocolateCheckBox.isChecked()){
+            isExtra = true;
+        } else {
+            message +="\n" +"Without Whipped Cream";
+            isExtra = false;
+        }
+        if (chocolateCheckBox.isChecked()){
             message +="\n"+ "With Chocolate";
+            isExtra = true;
+        }
+        else {
+            message +="\n" +"Without Chocolate";
+            isExtra = false;
         }
 
+
+       // Log.v("MainActivity", "is checked" + isExtra);
+        String name = editName.getText().toString();
+        message+= name;
         priceTextView.setText(message);
 
 

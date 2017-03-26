@@ -5,4 +5,7 @@
     <string name="quantityValue">0</string>
     <string name="priceValue">2</string>
     <string name="price">Price</string>
+    <string name="toppings">Toppings</string>
+    <string name="chocolate">With Chocolate</string>
+    <string name="whippedcream">Whipped Cream</string>
 </resources>
